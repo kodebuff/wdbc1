@@ -186,3 +186,67 @@ If a user visits any other route, print:
 
 ```
 
+
+
+Solution:
+
+```javascript
+var express = require('express');
+var app = express();
+
+// =====================================
+// ROUTES
+// =====================================
+
+// / ROUTE
+app.get("/", function(req, res){
+  res.send("Hi there, welcome to my assignment!");
+});
+
+// "/repeat/:animal" ROUTE
+app.get("/speak/:animal", function(req, res){
+
+  // define a dictionary of animal sound instead using if else
+  var sounds = {
+    pig: "Oink",
+    cow: "Moo",
+    dog: "Woof Woof!",
+    cat: "I hate you human",
+    goldfish: "..."
+  }
+  
+  var animalName = req.params.animal.toLowerCase();
+  var animalSound = sounds[animalName];
+
+  res.send("The " + animalName + " says '" + animalSound + "'");
+});
+
+// /repeat/:word/:count ROUTE
+app.get("/repeat/:word/:count", function(req, res){
+  
+  // get word to repeat
+  var wordToRepeat = req.params.word;
+  // get count to repeat words n times
+  var repeatCount = req.params.count;
+  // 
+  var wordRepeated = "";
+  for (var i = 0; i < repeatCount; i++) {
+    wordRepeated += wordToRepeat + " ";
+  }
+
+  res.send(wordRepeated);
+});
+
+// "*" ROUTE
+app.get("*", function(req, res){
+  res.send("Sorry, page not found... What are you doing with your life?");
+});
+
+// =====================================
+// START SERVER
+// =====================================
+app.listen(3000, function(){
+  console.log("Server has started on port 3000...");
+});
+```
+
