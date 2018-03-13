@@ -121,6 +121,113 @@ app.listen(3000, function(){
 
 
 
+# Styles and Partials
+
+* Include public assets
+* Configure app to use ejs
+* Use partials to dry up code
+
+
+
+1. Created the `public` directory and add a stylesheet inside of it.
+
+2. Need to declare public directory in main `app.js`  by using:
+
+   ```javascript
+   app.use(express.static("public"));
+   ```
+
+3. Tell Express that all of templates must use ejs so that we can drop the .ejs :
+
+   ```javascript
+   app.set("view engine", "ejs");
+   ```
+
+4. Created directory `partials` that includes two files, header.ejs and footer.ejs to dry up the code.
+
+   ```embeddedjs
+   <% include partials/header %>
+     <some code>
+   <% include partials/footer %>
+   ```
+
+   **Directory Structure:**
+
+   ![Directory Structure](/img/s24-004.jpg)
+
+
+
+# POST Request
+
+
+
+* set up a **POST** route, it only triggers by POST request.
+
+  ```javascript
+  // app.js
+
+  ...
+
+  // ROOT ROUTE
+  app.get("/", function(req, res){
+    res.render("home");
+  });
+
+  // POST sending data to be added or to be used somehow on the server side.
+  app.post("/addfriend", function(req, res){
+    // get newFriend name
+    var newFriend = req.body.newfriend;
+    
+    //save newFriend to friends array
+    friends.push(newFriend);
+    
+    //go back to friends list
+    res.redirect("/friends");
+  });
+
+  ...
+  ```
+
+* Added form to /friends route
+
+  ```javascript
+  // friends.ejs
+
+  <h1>Friends List goes here!!!</h1>
+
+  <% friends.forEach(function(friend){ %>
+    <li><%= friend %></li>
+  <% }); %>
+
+  <form action="/addfriend" method="POST">
+    <input type="text" name="newfriend" placeholder="name">
+    <button>Add New Friend</button>
+  </form>
+  ```
+
+* Extracting data like newfriend from form is made possible by `body-parser` package. It is used to extract data from the body and turn it into javascript object, specifically in this case, app needs to extract newfriend data for the app to add new friend to the friends list. Install it by using `npm  body-parser --save`  and define it on the app.js:
+
+  ```javascript
+  // app.js
+
+  ...
+
+  var express = require("express");
+  var app = express();
+
+  var bodyParser = require("body-parser");
+  app.use(bodyParser.urlencoded({extended: true}));
+
+  // ejs thingy
+  app.set("view engine", "ejs");
+
+  ...
+  ```
+
+
+
+
+
 
 
 
