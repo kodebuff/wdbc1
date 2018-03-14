@@ -65,6 +65,7 @@
 
 
 
+
 **Make a simple app that prints sunset time in Hawaii** 
 
 * install `npm request` 
@@ -98,5 +99,14 @@
   });
   ```
 
-  ​
 
+
+
+
+**Movie App** 
+
+* Create new folder `MovieSearchApp` 
+* Create package.json `npm init` 
+* Install express, ejs, and request packages `npm install --save express ejs request` 
+* Go to omdbapi.com for documentation
+* ​
