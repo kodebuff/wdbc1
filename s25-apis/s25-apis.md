@@ -108,5 +108,97 @@
 * Create new folder `MovieSearchApp` 
 * Create package.json `npm init` 
 * Install express, ejs, and request packages `npm install --save express ejs request` 
-* Go to omdbapi.com for documentation
-* ​
+* Go to omdbapi.com for documentation. 
+* Code:
+
+```javascript
+// app.js
+// NOTE IN API KEY:  YOU MUST HAVE YOUR OWN API KEY TO USE OMDB API.
+
+var express = require('express');
+var app = express();
+var request = require('request');
+
+app.set("view engine", "ejs");
+
+// =====================
+// ROUTES
+// =====================
+
+// ROOT ROUTE
+app.get("/", function(req, res){
+  res.render("search");
+});
+
+// /results ROUTE
+app.get("/results", function(req, res){
+  // search query from search.ejs
+  var query = req.query.movieSearch;
+
+  // set url for API request
+  var url = "http://www.omdbapi.com/?apikey=YOUR_API_KEY&s=" + query;
+  
+  // do API call
+  request(url, function(error, response, body){
+    if (!error && response.statusCode == 200) {
+      
+      // body is type string, parse body into object and save it in a container
+      var data = JSON.parse(body);
+      
+      //pass body (data) value to results.ejs 
+      res.render("results", {data: data});
+    }
+  });
+});
+
+// =====================
+// START SERVER
+// =====================
+app.listen(3000, function(){
+  console.log("Movie App Server has started at port 3000...");
+});
+```
+
+
+
+```embeddedjs
+<!-- search.ejs -->
+
+<h1>Search For A Movie</h1>
+
+<form action="/results" method="GET">
+  <input type="text" name="movieSearch" placeholder="search movie..." >
+  <input type="submit">
+</form>
+```
+
+
+
+```embeddedjs
+<!-- results.ejs -->
+
+<h1>Results Page!</h1>
+
+<ul>
+  <!-- extract data to display using forEach -->
+  <% data["Search"].forEach(function(movie){ %>
+    <li>
+      <strong><%= movie["Title"] %></strong> - <%= movie["Year"] %>
+    </li>
+  <% }) %>
+</ul>
+
+<!-- go back to search (ROOT ROUTE) -->
+<button><a href="/">Search again</a></button>
+```
+
+
+
+* **Screenshots:** 
+
+![Search Movie](D:\sbx\wdbc1\s25-apis\img\s25-004.JPG)
+
+![Results Page](D:\sbx\wdbc1\s25-apis\img\s25-005.JPG)
+
+
+
