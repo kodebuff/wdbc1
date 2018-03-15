@@ -194,6 +194,12 @@ app.listen(3000, function(){
 
 
 
+* **Directory Structure:** 
+
+  ![Directory Structure](D:\sbx\wdbc1\s25-apis\img\s25-006.JPG)
+
+
+
 * **Screenshots:** 
 
 ![Search Movie](D:\sbx\wdbc1\s25-apis\img\s25-004.JPG)
