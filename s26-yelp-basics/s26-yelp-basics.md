@@ -15,6 +15,7 @@
 * Add basic unstyled form
 * Add a better header/title
 * Make campgrounds display in a grid
+* ​
 
 
 
@@ -85,6 +86,16 @@
     res.redirect("/campgrounds");
   });
   ```
+
+* add styles using bootstrap
+
+* add navbar
+
+* center the form in newcampgrounds
+
+
+
+
 
 
 
