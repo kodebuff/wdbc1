@@ -340,3 +340,44 @@
 
 
 
+### SHOW ROUTE
+
+* add code for additional links in `index.ejs` 
+
+  ```embeddedjs
+  <!--
+    add this line to index.ejs after p tag for blog.body:
+    <a href="/blogs/<%= blog._id %>"></a>
+  -->
+
+  <% blogs.forEach(function(blog){ %>
+    <div>
+      <h2><%= blog.title %></h2>
+      <img src="<%= blog.image %>">
+      <span><%= blog.created %></span>
+      <p><%= blog.body %></p>
+      <a href="/blogs/<%= blog._id %>"></a>
+    </div>
+  <% }) %>
+  ```
+
+* add code for SHOW ROUTE after CREATE ROUTE:
+
+  ```javascript
+  // SHOW ROUTE
+  app.get("/blogs/:id", function(req, res){
+
+    // Blog.findById(id, callbackFunction)
+    // id is in req.params.id
+    Blog.findById(req.params.id, function(err, foundBlog){
+      if (err) {
+        // go back to index page
+        res.redirect("/blogs");
+      } else {
+        res.render("show", {blog: foundBlog});
+      }
+    });
+  });
+  ```
+
+* ​
