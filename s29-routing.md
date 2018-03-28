@@ -376,4 +376,49 @@
   });
   ```
 
+* create `show.ejs` in `views` folder:
+
+  ```embeddedjs
+  <!-- show.ejs -->
+
+  <% include ./partials/header %>
+
+  <div class="ui main text container segment">  
+    <div class="ui huge header"><%= blog.title %></div>
+    <div class="ui top attached">
+      <div class="item">
+        <img class="ui centered rounded image" src="<%= blog.image %>">
+        <div class="content">
+          <span><%= blog.created.toDateString() %></span>
+        </div>
+        <div class="description">
+          <p><%= blog.body %></p>
+        </div>
+      </div>
+    </div>  
+  </div>
+
+  <% include ./partials/footer %>
+  ```
+
+
+
+### EDIT ROUTE
+
+* add code for EDIT ROUTE 
+
+  ```javascript
+  // EDIT ROUTE
+  app.get("/blogs/:id/edit", function(req, res){
+    // go to edit.ejs form
+    res.render("edit");
+  });
+  ```
+
+* create `edit.ejs` file in `views` folder:
+
+  ```embeddedjs
+
+  ```
+
 * ​
