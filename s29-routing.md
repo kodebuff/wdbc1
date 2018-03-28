@@ -214,28 +214,24 @@
   <% }) %>
 
   <% include ./partials/footer %>
-
-
-  <!--
-    will link header.ejs: <% include ./partials/header %>
-    will link footer.ejs: <% include ./partials/footer %>
-  -->
   ```
+
 
 * add semantic-ui CSS framework:
 
   ```embeddedjs
   <!-- header.ejs -->
 
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Restful Blog App</title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" >
-      (...)
-      
-  <!-- added the minified version to make web app faster -->
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Restful Blog App</title>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css" >
+        (...)
+        
+    <!-- added the minified version to make web app faster -->
   ```
+
 
 * add header section:
 
@@ -301,7 +297,6 @@
     });
   });
 
-
   // before SERVER ROUTE
   ```
 
@@ -310,33 +305,34 @@
   ```embeddedjs
   <!-- new.ejs -->
 
-  <% include ./partials/header %>
+    <% include ./partials/header %>
 
-  <div class="ui main text container segment">
-    
-    <div class="ui huge header">New Blog</div>
-    
-    <form class="ui form" action="/blogs" method="POST">
-      <div class="field">
-        <label>Title</label>
-        <input type="text" name="blog[title]" placeholder="title">
-      </div>
-      <div class="field">
-        <label>Image</label>
-        <input type="text" name="blog[image]" placeholder="image">
-      </div>
-      <div class="field">
-        <label>Blog Content</label>
-        <textarea name="blog[body]"></textarea>
-      </div>
+    <div class="ui main text container segment">
+      
+      <div class="ui huge header">New Blog</div>
+      
+      <form class="ui form" action="/blogs" method="POST">
+        <div class="field">
+          <label>Title</label>
+          <input type="text" name="blog[title]" placeholder="title">
+        </div>
+        <div class="field">
+          <label>Image</label>
+          <input type="text" name="blog[image]" placeholder="image">
+        </div>
+        <div class="field">
+          <label>Blog Content</label>
+          <textarea name="blog[body]"></textarea>
+        </div>
 
-      <input class="ui violet basic big button" type="submit">
-    </form>
+        <input class="ui violet basic big button" type="submit">
+      </form>
 
-  </div>
+    </div>
 
-  <% include ./partials/footer %>
+    <% include ./partials/footer %>
   ```
+
 
 
 
