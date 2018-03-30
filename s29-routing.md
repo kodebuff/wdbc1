@@ -422,3 +422,162 @@
   ```
 
 * ​
+
+
+
+Source Code:
+
+```javascript
+// app.js
+
+// declare variables
+var express    = require("express"),
+bodyParser     = require("body-parser"),
+methodOverride = require("method-override"),
+mongoose       = require("mongoose"),
+app            = express();
+
+// connect mongoDB and create (if not existing) OR use (if existing) restful_blog_app db
+mongoose.connect("mongodb://localhost/restful_blog_app");
+
+// APP CONFIG
+app.set("view engine", "ejs");  //  ejs
+app.use(express.static("public"));  // for views directory to recognize
+app.use(bodyParser.urlencoded({extended: true})); // bodyParser
+app.use(methodOverride("_method")); // this will use to cheat PUT in edit.ejs
+
+// MONGOOSE/MODEL CONFIG
+var blogSchema = new mongoose.Schema({
+  title: String,
+  image: String,
+  body: String,
+  created: {type: Date, default: Date.now} //this will get the default date
+});
+var Blog = mongoose.model("Blog", blogSchema);
+
+// // TEMPORARILY CREATE BLOG
+// Blog.create(
+//   {
+//     title: "Test Blog",
+//     image: "https://pixabay.com/get/ea37b2092df6023ed1584d05fb1d4e97e07ee3d21cac104497f1c47aa5e4b3bb_340.jpg",
+//     body: "test body",
+// });
+
+// ====================================
+// RESTFUL ROUTES
+// ====================================
+
+// ROOT ROUTE
+app.get("/", function(req, res){
+  // redirect root route to index route
+  res.redirect("/blogs");
+});
+
+// INDEX ROUTE
+app.get("/blogs", function(req, res){  
+  // find all the blogs in MongoDB and save it under blogs
+  Blog.find({}, function(err, blogs){
+    if (err) {
+      console.log(err);
+    } else {
+      // pass in all data from blogs (2nd, from callback function) 
+      // to blogs (1st, assigned variable to be rendered in index.ejs)
+      res.render("index", {blogs: blogs});
+    }
+  });  
+});
+
+// NEW ROUTE
+app.get("/blogs/new", function(req, res){
+  // go to new.ejs form 
+  res.render("new");
+});
+
+// CREATE ROUTE
+app.post("/blogs", function(req, res){
+  // create blog
+  // Blog.create(data, callback);
+  // data is from new.ejs inputs blog[title], blog[image], blog[body]
+  // which in app.post, those data is inside of req.body.blog
+  Blog.create(req.body.blog, function(err, newBlog){
+    if (err) {
+      // instead of console.log, go to new.ejs form (will create error page soon)
+      res.render("new");
+    } else {
+      // redirect to INDEX ROUTE
+      res.redirect("/blogs");
+    }
+  });
+});
+
+// SHOW ROUTE
+app.get("/blogs/:id", function(req, res){
+  // Blog.findById(id, callbackFunction)
+  // id is in req.params.id
+  // and save all data to foundBlog
+  Blog.findById(req.params.id, function(err, foundBlog){
+    if (err) {
+      // go back to index route
+      res.redirect("/blogs");
+    } else {
+      // pass in all data from foundBlog(from callback function) 
+      // to blog (assigned variable to be rendered in show.ejs)
+      res.render("show", {blog: foundBlog});
+    }
+  });
+});
+
+// EDIT ROUTE
+app.get("/blogs/:id/edit", function(req, res){
+  // Blog.findById(id, callbackFunction)
+  // id is in req.params.id
+  // and save all data to foundBlog
+  Blog.findById(req.params.id, function(err, foundBlog){
+    if (err) {
+      // go back to index route
+      res.redirect("/blogs");
+    } else {
+      // pass in all data from foundBlog(from callback function) 
+      // to edit (assigned variable to be rendered in edit.ejs)
+      res.render("edit", {blog: foundBlog});
+    }
+  });
+});
+
+// UPDATE ROUTE
+app.put("/blogs/:id", function(req, res){
+  // res.send("UPDATE ROUTE!");
+  // Blog.findByIdAndUpdate(id, newData, callback);
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+    if (err) {
+      // go back to index route
+      res.redirect("/blogs");
+    } else {
+      // go to SHOW ROUTE with specific blog id
+      res.redirect("/blogs/" + req.params.id);
+    }
+  });
+});
+
+// DELETE ROUTE
+app.delete("/blogs/:id", function(req, res){
+  // Destroy blog
+  Blog.findByIdAndRemove(req.params.id, function(err){
+    if (err) {
+       // go back to index route
+      res.redirect("/blogs");
+    } else {
+      // Redirect somewhere 
+      res.redirect("/blogs");
+    }
+  });
+});
+
+// ====================================
+// START SERVER
+// ====================================
+app.listen(3000, function(){
+  console.log("restfulBlogApp Server has started at port 3000...");
+});
+```
+
