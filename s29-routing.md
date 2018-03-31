@@ -12,15 +12,15 @@
 
 **Table of all 7 RESTful routes**
 
-| Name    | Path (example) | HTTP Verb | Purpose                                          |
-| ------- | -------------- | --------- | :----------------------------------------------- |
-| INDEX   | /dogs          | GET       | List all dogs                                    |
-| NEW     | /dogs/new      | GET       | Show new dog form                                |
-| CREATE  | /dogs          | POST      | Create new dog, then redirect somewhere          |
-| SHOW    | /dogs/:id      | GET       | Show info about one specific dog                 |
-| EDIT    | /dogs/:id/edit | GET       | Show edit form for one dog                       |
-| UPDATE  | /dogs/:id      | PUT       | Update a particular dog, then redirect somewhere |
-| DESTROY | /dogs/:id      | DELETE    | Delete a particular dog, then redirect somewhere |
+| Name    | Path (example) | HTTP Verb | Purpose                                          | Mongoose Method         |
+| ------- | -------------- | --------- | :----------------------------------------------- | ----------------------- |
+| INDEX   | /dogs          | GET       | List all dogs                                    | Dog.find()              |
+| NEW     | /dogs/new      | GET       | Show new dog form                                | N/A                     |
+| CREATE  | /dogs          | POST      | Create new dog, then redirect somewhere          | Dog.Create()            |
+| SHOW    | /dogs/:id      | GET       | Show info about one specific dog                 | Dog.findById()          |
+| EDIT    | /dogs/:id/edit | GET       | Show edit form for one dog                       | Dog.findById()          |
+| UPDATE  | /dogs/:id      | PUT       | Update a particular dog, then redirect somewhere | Dog.findByIdAndUpdate() |
+| DESTROY | /dogs/:id      | DELETE    | Delete a particular dog, then redirect somewhere | Dog.findByIdAndRemove() |
 
 
 
